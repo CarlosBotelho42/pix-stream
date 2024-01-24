@@ -32,6 +32,9 @@ import static org.apache.kafka.streams.StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_C
 @EnableKafkaStreams
 public class ProducerKafkaConfig {
 
+    @Value(value = "${spring.kafka.bootstrap-servers:localhost:9092}")
+    private String bootstrapAddress;
+
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kafkaStreamsConfig() {
         Map props = new HashMap<>();
@@ -41,10 +44,6 @@ public class ProducerKafkaConfig {
         props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, PixSerdes.class);
         return new KafkaStreamsConfiguration(props);
     }
-
-
-    @Value(value = "${spring.kafka.bootstrap-servers:localhost:9092}")
-    private String bootstrapAddress;
 
     @Bean
     public ProducerFactory<String, PixDTO> producerFactory() {
